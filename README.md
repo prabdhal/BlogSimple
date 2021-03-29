@@ -5,4 +5,4 @@ A blogging website where users can sign up, setup their profile and begin postin
 - Integrated an email delivery service called SendGrid, to be able to send users email and password confirmation emails.
 - Implemented CRUD operations using .NET 5 MVC with entity framework and SQL Server as the database to store users, posts and comments.
 - Deployed via azure using azure SQL database to store data and secrets key vault to store sensitive information.
-- Languages: C#, SQL, HTML, CSS with Bootstrap
+- Languages: C#, SQL, JavaScript, jQuery, HTML and CSS with Bootstrap
