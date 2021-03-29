@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using BlogSimpleMVC.BusinessManagers.Interfaces;
 using BlogSimpleMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,15 +15,18 @@ namespace BlogSimpleMVC.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly IPostBusinessManager _postBusinessManager;
 
         public DeletePersonalDataModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IPostBusinessManager postBusinessManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _postBusinessManager = postBusinessManager;
         }
 
         [BindProperty]
@@ -66,6 +70,9 @@ namespace BlogSimpleMVC.Areas.Identity.Pages.Account.Manage
                     return Page();
                 }
             }
+
+            // Delete all posts, comments and replies by the user.
+            var deleteUser = _postBusinessManager.DeleteAllUserPosts(user);
 
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);
