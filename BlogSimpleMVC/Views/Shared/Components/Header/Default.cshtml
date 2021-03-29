@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+<header class="masthead" style="background-image: url('img/pexels-kaboompics-com-6357.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h1 class="text-break">BlogSimple</h1>
+                    <span class="subheading">Blog publishing made simple!</span>
+                    @if (!SignInManager.IsSignedIn(User))
+                    {
+                        <a class="btn btn-light" asp-area="Identity" asp-page="/Account/Register">Get Started</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,23 @@
+﻿@model BlogSimpleMVC.ViewModels.AboutViewModel
+
+<div class="modal fade" id="confirmationPopup" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="exampleModalLabel"><i class="fas fa-exclamation mr-3"></i>Session Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to proceed? Make sure you submit your work
+                before proceeding, or else you will lose all your session data.
+            </div>
+            <form class="modal-footer" id="confirmationPopupForm" method="post">
+                <button type="submit" class="btn btn-danger">Proceed</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+

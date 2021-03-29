@@ -1,5 +1,6 @@
 ﻿using BlogSimpleMVC.Data;
 using BlogSimpleMVC.Models;
+using BlogSimpleMVC.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlogSimpleMVC.Services
 {
-    public class PostService
+    public class PostService : IPostService
     {
         private readonly ApplicationDbContext applicationDbContext;
 
