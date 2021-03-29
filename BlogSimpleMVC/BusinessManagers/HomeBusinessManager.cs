@@ -3,7 +3,7 @@ using BlogSimpleMVC.Models;
 using BlogSimpleMVC.Services.Interfaces;
 using BlogSimpleMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
+using PagedList.Core;
 using System.Linq;
 
 namespace BlogSimpleMVC.BusinessManagers

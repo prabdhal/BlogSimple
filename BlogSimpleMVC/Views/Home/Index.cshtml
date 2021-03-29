@@ -1,5 +1,5 @@
 ﻿@model BlogSimpleMVC.ViewModels.HomeIndexViewModel
-@using PagedList.Mvc
+@using PagedList.Core.Mvc
 
 <div class="container">
     <form asp-controller="Home" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -32,6 +32,6 @@
 </div>}
     </div>
     <div list="@Model.Posts" count="20">
-        <pager class="pager-container" list="@Model.Posts" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-controller="Home" asp-action="Index" asp-route-query="@Model.SearchString" />
+        <pager class="pager-container" list="@Model.Posts" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusFirstAndLast" asp-controller="Home" asp-action="Index" asp-route-query="@Model.SearchString" />
     </div>
 </div>

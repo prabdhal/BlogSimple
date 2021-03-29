@@ -1,5 +1,5 @@
 ﻿using BlogSimpleMVC.Models;
-using PagedList;
+using PagedList.Core;
 
 namespace BlogSimpleMVC.ViewModels
 {

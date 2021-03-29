@@ -1,4 +1,5 @@
-﻿using BlogSimpleMVC.Models;
+﻿using BlogSimpleMVC.EmailServices;
+using BlogSimpleMVC.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -98,8 +99,11 @@ namespace BlogSimpleMVC.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    string subject = EmailMessageHandler.EmailSubject("Email Confirmation");
+                    string message = EmailMessageHandler.EmailMessage(user, callbackUrl, "email");
+
+                    await _emailSender.SendEmailAsync(
+                        Input.Email, subject, message);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

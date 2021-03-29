@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using BlogSimpleMVC.EmailServices;
 
 namespace BlogSimpleMVC.Areas.Identity.Pages.Account
 {
@@ -57,10 +58,11 @@ namespace BlogSimpleMVC.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
+                string subject = EmailMessageHandler.EmailSubject("Password Reset");
+                string message = EmailMessageHandler.EmailMessage(user, callbackUrl, "email");
+
                 await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    Input.Email, subject, message);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

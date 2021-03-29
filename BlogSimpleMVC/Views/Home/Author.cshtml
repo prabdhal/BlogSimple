@@ -1,80 +1,54 @@
-﻿
-@model BlogSimpleMVC.ViewModels.AboutViewModel
-@{ ViewData["Title"] = "Update Your About Me"; }
+﻿@model BlogSimpleMVC.ViewModels.AuthorViewModel
+@using PagedList.Core.Mvc
+@{ 
+    Layout = "_HomeLayout";
+    ViewData["Title"] = "Author Profile";
+    ViewData["HeaderImage"] = $"../../UserFiles/Users/{Model.Author.Id}/HeaderImage.jpg";
+    ViewData["HeaderTitle"] = $"{Model.Author.FirstName} {Model.Author.LastName}";
+    ViewData["SubHeader"] = $"{Model.Author.SubHeader}";
+    ViewData["LinkedIn"] = Model.Author.LinkedIn;
+    ViewData["Twitter"] = Model.Author.Twitter;
+    ViewData["Facebook"] = Model.Author.Facebook;
+    ViewData["PortfolioWebsite"] = Model.Author.PortfolioWebsite; 
+}
 
-<div class="container-fluid">
-    <h1 class="mt-4">About Me</h1>
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card mb-4">
-                <form asp-controller="Admin" asp-action="UpdateAbout" method="post" enctype="multipart/form-data">
-                    <div class="card-header">
-                        <i class="fas fa-pen-fancy mr-1"></i>
-                        Update your About me info!
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label asp-for="HeaderImage"></label>
-                            <div class="custom-file">
-                                <input asp-for="HeaderImage" class="custom-file-input" accept="image/*" />
-                                <label class="custom-file-label">Choose file</label>
-                            </div>
-                            <span asp-validation-for="HeaderImage" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="LinkedIn"></label>
-                            <input asp-for="LinkedIn" class="form-control" />
-                            <span asp-validation-for="LinkedIn" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Twitter"></label>
-                            <input asp-for="Twitter" class="form-control" />
-                            <span asp-validation-for="Twitter" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Facebook"></label>
-                            <input asp-for="Facebook" class="form-control" />
-                            <span asp-validation-for="Facebook" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PortfolioWebsite"></label>
-                            <input asp-for="PortfolioWebsite" class="form-control" />
-                            <span asp-validation-for="PortfolioWebsite" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="SubHeader"></label>
-                            <input asp-for="SubHeader" class="form-control" />
-                            <span asp-validation-for="SubHeader" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Content"></label>
-                            <textarea asp-for="Content" class="form-control" id="editor" rows="8"></textarea>
-                            <span asp-validation-for="Content" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="form-group">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                            <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#confirmationPopup" onclick="initializeConfirmationPopupRouteIdForView('@Model.ApplicationUser.Id')">
-                                View
-                            </button>
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                @Html.Raw(Model.Author.AboutContent)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form asp-controller="Home" asp-action="Author" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                    <div class="input-group mb-3">
+                        <input name="AuthorId" hidden readonly value="@Model.Author.Id" />
+                        <input asp-for="SearchString" type="text" class="form-control" placeholder="Search posts..." />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
                         </div>
                     </div>
                 </form>
+                <div class="row align-content-center">
+                @foreach (var post in Model.Posts)
+                {
+                <div class="col-lg-4 col-md-3 mb-4">
+                    <div class="card border-0 shadow">
+                        <img src="~/UserFiles/Posts/@post.Id/HeaderImage.jpg" class="card-img-top" />
+                        <div class="card-body">
+                            <div class="row text-center" style="margin: 0px auto 10px 0px;">
+                                <h5 class="card-title text-center w-100"><a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                </div>
+                <div list="@Model.Posts" count="20">
+                    <pager class="pager-container" list="@Model.Posts" optitons="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-action="Index" asp-controller="Home" asp-route-query="@Model.SearchString" />
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-@Html.Partial("~/Views/Shared/Popups/_ConfirmationPopup.cshtml", new BlogSimpleMVC.ViewModels.AboutViewModel())
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script src="~/ckeditor/ckeditor.js"></script>
-    <script>CKEDITOR.replace('editor');</script>
-    <script>const confirmationPopupForm = document.querySelector('#confirmationPopupForm');
-
-        function initializeConfirmationPopupRouteIdForView(authorId) {
-            confirmationPopupForm.action = `/Home/Author?authorId=${authorId}`;
-        }</script>
-}
+</article>
